@@ -1,7 +1,6 @@
-import { config } from '../../Config/config';
-
+const url = process.env.REACT_APP_URL;
 export const getAllEmployees = async () => {
-  return await fetch(config + `/AllEmployees`)
+  return await fetch(url + `/AllEmployees`)
     .then((response) => {
       return response.json();
     })
@@ -9,7 +8,7 @@ export const getAllEmployees = async () => {
       return res;
     })
     .catch((error: any) => {
-      console.log(error);
+      return error;
     });
 };
 export type Employee = {

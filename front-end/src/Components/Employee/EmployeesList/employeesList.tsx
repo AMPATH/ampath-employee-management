@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import DataTable, {
+import {
+  DataTable,
   TableContainer,
   Table,
   TableToolbar,
@@ -10,12 +11,14 @@ import DataTable, {
   TableHeader,
   TableBody,
   TableCell,
-} from 'carbon-components-react/lib/components/DataTable';
-import Pagination from 'carbon-components-react/lib/components/Pagination';
-import DataTableSkeleton from 'carbon-components-react/lib/components/DataTableSkeleton';
-import Button from 'carbon-components-react/lib/components/Button';
+} from 'carbon-components-react';
+import { Pagination } from 'carbon-components-react';
+import { DataTableSkeleton } from 'carbon-components-react';
+import { Button } from 'carbon-components-react';
 import { Employee, getAllEmployees } from './employee.resource';
-const dayjs = require('dayjs');
+import dayjs from 'dayjs';
+import { ErrorState } from '../../Error/error';
+
 const EmployeeList: React.FC = () => {
   const [firstRowIndex, setFirstRowIndex] = React.useState(0);
   const [currentPageSize, setCurrentPageSize] = React.useState(5);
