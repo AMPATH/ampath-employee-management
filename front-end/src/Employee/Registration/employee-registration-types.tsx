@@ -4,7 +4,6 @@ export interface EmployeeRegistrationFormProps {
   lastName: string;
   idNumber: string;
   dob: string;
-  age: string;
   telephone: string;
   email: string;
   gender: string;
@@ -21,10 +20,9 @@ export const formValues: EmployeeRegistrationFormProps = {
   lastName: '',
   idNumber: '',
   dob: '',
-  age: '',
   telephone: '',
   email: '',
-  gender: 'Male',
+  gender: '',
   kraPin: '',
   nssf: '',
   nhif: '',
