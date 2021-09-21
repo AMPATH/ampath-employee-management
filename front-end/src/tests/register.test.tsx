@@ -1,5 +1,5 @@
-import React from "react";
-import { render } from "@testing-library/react";
+import React from 'react';
+import { render } from '@testing-library/react';
 // import Button from "./login";
 import Register from "../Components/Register/register";
 
