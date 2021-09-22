@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   DataTable,
   TableContainer,
@@ -17,7 +17,6 @@ import { DataTableSkeleton } from 'carbon-components-react';
 import { Button } from 'carbon-components-react';
 import { Employee, getAllEmployees } from './employee.resource';
 import dayjs from 'dayjs';
-import { ErrorState } from '../../Error/error';
 
 const EmployeeList: React.FC = () => {
   const [firstRowIndex, setFirstRowIndex] = React.useState(0);
