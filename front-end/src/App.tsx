@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import { EmployeeRegistrationForm } from './Employee/Registration/employee-registration.component';
 
 function App() {
   return (
     <>
-      <EmployeeRegistrationForm />
+      <h3>Modules under development</h3>
+      <h5>Check them on ./Components folder</h5>
     </>
   );
 }
