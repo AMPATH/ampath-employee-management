@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   DataTable,
   TableContainer,
@@ -11,20 +11,22 @@ import {
   TableHeader,
   TableBody,
   TableCell,
+  DataTableRow,
+  DataTableHeader,
 } from 'carbon-components-react';
 import { Pagination } from 'carbon-components-react';
 import { DataTableSkeleton } from 'carbon-components-react';
 import { Button } from 'carbon-components-react';
-import { Employee, getAllEmployees } from './employee.resource';
+import { getAllEmployees } from './employee.resource';
 import dayjs from 'dayjs';
 
 const EmployeeList: React.FC = () => {
   const [firstRowIndex, setFirstRowIndex] = React.useState(0);
   const [currentPageSize, setCurrentPageSize] = React.useState(5);
-  const [employees, setEmployees] = React.useState<Array<Employee>>([]);
+  const [employees, setEmployees] = React.useState<Array<DataTableRow>>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const tableHeaders = useMemo(
+  const tableHeaders: Array<DataTableHeader> = useMemo(
     () => [
       { key: 'id', header: 'ID' },
       { key: 'pfNumber', header: 'PF Number' },
@@ -64,7 +66,7 @@ const EmployeeList: React.FC = () => {
     });
   }, []);
 
-  const getRowItems = (rows: Array<Employee>) => {
+  const getRowItems = (rows: Array<DataTableRow>) => {
     return rows.slice(firstRowIndex, firstRowIndex + currentPageSize).map((row: any) => ({ ...row }));
   };
   const rows = getRowItems(employees);
@@ -77,7 +79,17 @@ const EmployeeList: React.FC = () => {
     <>
       {employees.length > 0 ? (
         <DataTable rows={rows} headers={tableHeaders}>
-          {({ rows, headers, getHeaderProps, getTableProps }) => (
+          {({
+            rows,
+            headers,
+            getHeaderProps,
+            getTableProps,
+          }: {
+            rows: any;
+            headers: any;
+            getHeaderProps: any;
+            getTableProps: any;
+          }) => (
             <TableContainer title="Employees List" style={{ marginTop: '3rem' }}>
               <TableToolbar>
                 <TableToolbarContent>
