@@ -17,14 +17,14 @@ import {
 import { Pagination } from 'carbon-components-react';
 import { DataTableSkeleton } from 'carbon-components-react';
 import { Button } from 'carbon-components-react';
-import { getAllEmployees } from './employee.resource';
+import { Employee, getAllEmployees } from './employee.resource';
 import dayjs from 'dayjs';
 
 const EmployeeList: React.FC = () => {
   const [firstRowIndex, setFirstRowIndex] = React.useState(0);
   const [currentPageSize, setCurrentPageSize] = React.useState(5);
-  const [employees, setEmployees] = React.useState<Array<DataTableRow>>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [employees, setEmployees] = React.useState<Array<Employee>>([]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const tableHeaders: Array<DataTableHeader> = useMemo(
     () => [
@@ -66,12 +66,26 @@ const EmployeeList: React.FC = () => {
     });
   }, []);
 
+  const filterField = (search: string, value: string) => value.toLowerCase().includes(search.toLowerCase());
+  const filteredEmployees = employees.filter((item) => {
+    if (searchTerm === '') {
+      return item;
+    } else if (
+      filterField(searchTerm, item.firstName) ||
+      filterField(searchTerm, item.lastName) ||
+      filterField(searchTerm, item.middleName) ||
+      item.pfNumber.toString().includes(searchTerm)
+    ) {
+      return item;
+    }
+  });
   const getRowItems = (rows: Array<DataTableRow>) => {
     return rows.slice(firstRowIndex, firstRowIndex + currentPageSize).map((row: any) => ({ ...row }));
   };
-  const rows = getRowItems(employees);
+  const rows = getRowItems(filteredEmployees);
 
   const handleSearch = (e: any) => {
+    e.preventDefault();
     setSearchTerm(e.target.value);
   };
 

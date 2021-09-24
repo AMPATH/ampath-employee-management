@@ -1,17 +1,17 @@
 const url = process.env.REACT_APP_URL;
 export const getAllEmployees = async () => {
-  return await fetch(url + `/AllEmployees`)
+  return await fetch(url + `/employee`)
     .then((response) => {
       return response.json();
     })
     .then((res: any) => {
-      return res;
+      return res.data;
     })
     .catch((error: any) => {
       return error;
     });
 };
-export type Employee = {
+export interface Employee {
   id: string;
   firstName: string;
   middleName: string;
@@ -27,4 +27,4 @@ export type Employee = {
   nhif: number;
   pfNumber: number;
   salutation: string;
-};
+}
