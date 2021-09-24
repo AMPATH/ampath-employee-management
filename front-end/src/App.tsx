@@ -1,11 +1,16 @@
-import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-
+import Employeeprofile from './Components/Employee/employee-profile';
 function App() {
   return (
     <>
-      <h3>Modules under development</h3>
-      <h5>Check them on ./Components folder</h5>
+      <BrowserRouter>
+        <div>
+          <Route>
+            <Employeeprofile />
+          </Route>
+        </div>
+      </BrowserRouter>
     </>
   );
 }
