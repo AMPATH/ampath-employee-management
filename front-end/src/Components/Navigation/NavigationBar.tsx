@@ -1,5 +1,4 @@
 import { Route, Switch } from 'react-router-dom';
-import { action } from '@storybook/addon-actions';
 import styles from './NavigationBar.module.css';
 import {
   Header,
@@ -16,7 +15,7 @@ import {
   SkipToContent,
 } from 'carbon-components-react';
 import { Search20, Notification20, AppSwitcher20, Add16 } from '@carbon/icons-react';
-const NavbarScroller = () => {
+const NavigationBar = () => {
   return (
     <div>
       <div>
@@ -36,20 +35,16 @@ const NavbarScroller = () => {
                   <HeaderMenuItem href="/EmployeeProfile">Log out</HeaderMenuItem>
                 </HeaderNavigation>
                 <HeaderGlobalBar>
-                  <HeaderGlobalAction aria-label="Add " onClick={action('add click')}>
+                  <HeaderGlobalAction aria-label="Add new employee">
                     <Add16 />
                   </HeaderGlobalAction>
-                  <HeaderGlobalAction aria-label="Search" onClick={action('search click')}>
+                  <HeaderGlobalAction aria-label="Search">
                     <Search20 />
                   </HeaderGlobalAction>
-                  <HeaderGlobalAction aria-label="Notifications" onClick={action('notification click')}>
+                  <HeaderGlobalAction aria-label="Notifications">
                     <Notification20 />
                   </HeaderGlobalAction>
-                  <HeaderGlobalAction
-                    aria-label="App Switcher"
-                    onClick={action('app-switcher click')}
-                    tooltipAlignment="end"
-                  >
+                  <HeaderGlobalAction aria-label="App Switcher" tooltipAlignment="end">
                     <AppSwitcher20 />
                   </HeaderGlobalAction>
                 </HeaderGlobalBar>
@@ -80,4 +75,4 @@ const NavbarScroller = () => {
     </div>
   );
 };
-export default NavbarScroller;
+export default NavigationBar;
