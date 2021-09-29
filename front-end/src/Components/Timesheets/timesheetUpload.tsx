@@ -76,7 +76,7 @@ const TimesheetUpload: React.FC = () => {
           onChange={handleImageChange}
         />
 
-        <Button type="submit" kind="secondary" style={{ marginTop: '1rem' }}>
+        <Button type="submit" disabled={!selectedFiles} kind="secondary" style={{ marginTop: '1rem' }}>
           Upload TimeSheet
         </Button>
       </Form>
