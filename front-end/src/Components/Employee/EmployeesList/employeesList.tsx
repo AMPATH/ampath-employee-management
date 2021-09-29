@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   DataTable,
   TableContainer,
@@ -13,14 +14,15 @@ import {
   TableCell,
   DataTableRow,
   DataTableHeader,
+  Pagination,
+  DataTableSkeleton,
+  Button,
 } from 'carbon-components-react';
-import { Pagination } from 'carbon-components-react';
-import { DataTableSkeleton } from 'carbon-components-react';
-import { Button } from 'carbon-components-react';
 import { Employee, getAllEmployees } from './employee.resource';
 import dayjs from 'dayjs';
 
 const EmployeeList: React.FC = () => {
+  const history = useHistory();
   const [firstRowIndex, setFirstRowIndex] = React.useState(0);
   const [currentPageSize, setCurrentPageSize] = React.useState(5);
   const [employees, setEmployees] = React.useState<Array<Employee>>([]);
@@ -89,6 +91,13 @@ const EmployeeList: React.FC = () => {
     setSearchTerm(e.target.value);
   };
 
+  const handleRowClick = (pfNumber: any) => {
+    history.push(`/EmployeeProfile/${pfNumber}`);
+  };
+
+  const registerEmployee = () => {
+    history.push(`/EmployeeRegistration`);
+  };
   return (
     <>
       {employees.length > 0 ? (
@@ -108,7 +117,9 @@ const EmployeeList: React.FC = () => {
               <TableToolbar>
                 <TableToolbarContent>
                   <TableToolbarSearch persistent={true} onChange={handleSearch} />
-                  <Button kind="secondary">Create New Employee</Button>
+                  <Button kind="secondary" onClick={registerEmployee}>
+                    Create New Employee
+                  </Button>
                 </TableToolbarContent>
               </TableToolbar>
               <Table {...getTableProps()}>
@@ -121,7 +132,7 @@ const EmployeeList: React.FC = () => {
                 </TableHead>
                 <TableBody>
                   {rows.map((row: any) => (
-                    <TableRow key={row.id}>
+                    <TableRow key={row.id} onClick={() => handleRowClick(row.cells[1].value)}>
                       {row.cells.map((cell: any) => (
                         <TableCell key={cell.id}>{cell.value}</TableCell>
                       ))}
@@ -130,7 +141,7 @@ const EmployeeList: React.FC = () => {
                 </TableBody>
               </Table>
               <Pagination
-                totalItems={employees.length}
+                totalItems={filteredEmployees.length}
                 backwardText="Previous page"
                 forwardText="Next page"
                 itemsPerPageText="Items per page:"
