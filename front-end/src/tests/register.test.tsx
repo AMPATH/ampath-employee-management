@@ -10,4 +10,3 @@ describe('Register Page', () => {
     expect(getByTestId('register')).toBeInTheDocument();
   });  
 });
-
