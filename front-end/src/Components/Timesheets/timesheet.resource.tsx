@@ -14,7 +14,7 @@ export const getAllEmployees = async () => {
 };
 export const uploadTimesheet = async (formData: any) => {
   return await fetch(url + `/timesheet`, {
-    method: "POST",
+    method: 'POST',
     body: formData,
   })
     .then((res) => {
