@@ -8,10 +8,11 @@ import {
   PasswordInput,
   ToastNotification,
 } from "carbon-components-react";
+import { addUser } from "./register.resource";
 import styles from "./register.module.scss";
 import { formValues, formInputProps } from "./register.types";
 import { validationSchema } from "./register.validation";
-import { addUser } from "./register.resource";
+
 
 export const Register: React.FC = () => {
   const [userCreated, setUserCreated] = useState<boolean>(false);
