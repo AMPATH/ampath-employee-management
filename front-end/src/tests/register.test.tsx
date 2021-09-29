@@ -8,5 +8,5 @@ describe('Register Page', () => {
     expect(getByTestId('username')).toBeInTheDocument();
     expect(getByTestId('password')).toBeInTheDocument();
     expect(getByTestId('register')).toBeInTheDocument();
-  });  
+  });
 });
