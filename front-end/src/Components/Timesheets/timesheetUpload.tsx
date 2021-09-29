@@ -1,16 +1,16 @@
-import React, { useMemo, useState } from 'react';
-import { Form } from 'carbon-components-react';
-import { FileUploader } from 'carbon-components-react';
-import { Button } from 'carbon-components-react';
-import { TextInput } from 'carbon-components-react';
-import { getAllEmployees, uploadTimesheet } from '../Timesheets/timesheet.resource';
-import FilterableMultiSelect from 'carbon-components-react/lib/components/MultiSelect/FilterableMultiSelect';
+import React, { useMemo, useState } from "react";
+import { Form, TextInput, FileUploader, Button } from "carbon-components-react";
+import {
+  getAllEmployees,
+  uploadTimesheet,
+} from "../Timesheets/timesheet.resource";
+import FilterableMultiSelect from "carbon-components-react/lib/components/MultiSelect/FilterableMultiSelect";
 
 const TimesheetUpload: React.FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<any>();
   const [employees, setEmployees] = useState<Array<any>>([]);
   const [selectEmployees, setSelectEmployees] = useState([]);
-  const [month, setMonth] = useState('');
+  const [month, setMonth] = useState("");
 
   const handleImageChange = (e: any) => {
     setSelectedFiles(e.target.files[0]);
@@ -22,9 +22,9 @@ const TimesheetUpload: React.FC = () => {
 
   const upload = () => {
     let data = new FormData();
-    data.append('pfNumber', JSON.stringify(pfNumber));
-    data.append('month', month);
-    data.append('upload', selectedFiles);
+    data.append("pfNumber", JSON.stringify(pfNumber));
+    data.append("month", month);
+    data.append("upload", selectedFiles);
 
     uploadTimesheet(data).then((res: any) => {
       console.log(res);
@@ -46,12 +46,16 @@ const TimesheetUpload: React.FC = () => {
 
   return (
     <>
-      <Form style={{ marginTop: '3rem' }} onSubmit={upload} encType="multipart/form-data">
+      <Form
+        style={{ marginTop: "3rem" }}
+        onSubmit={upload}
+        encType="multipart/form-data"
+      >
         <FilterableMultiSelect
           id=""
           items={employees}
           itemToString={(item: { pfNumber: string; name: string }) =>
-            item ? `${item.pfNumber + ' - ' + item.name}` : ''
+            item ? `${item.pfNumber + " - " + item.name}` : ""
           }
           placeholder="Select Employee(s)"
           selectionFeedback="fixed"
@@ -68,7 +72,7 @@ const TimesheetUpload: React.FC = () => {
         />
         <FileUploader
           buttonKind="secondary"
-          accept={['.jpg', '.png']}
+          accept={[".jpg", ".png"]}
           buttonLabel="Add file"
           iconDescription="Clear file"
           filenameStatus="edit"
@@ -76,7 +80,12 @@ const TimesheetUpload: React.FC = () => {
           onChange={handleImageChange}
         />
 
-        <Button type="submit" disabled={!selectedFiles} kind="secondary" style={{ marginTop: '1rem' }}>
+        <Button
+          type="submit"
+          disabled={!selectedFiles}
+          kind="secondary"
+          style={{ marginTop: "1rem" }}
+        >
           Upload TimeSheet
         </Button>
       </Form>
