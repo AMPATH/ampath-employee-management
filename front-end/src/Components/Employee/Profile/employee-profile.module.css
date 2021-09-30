@@ -20,6 +20,10 @@
     font-size: larger;
 }
 
+.employeedetails {
+    color: green;
+}
+
 .btn {
     margin: 50px;
     padding: 5px;
