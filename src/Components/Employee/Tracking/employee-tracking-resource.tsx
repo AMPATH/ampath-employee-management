@@ -16,4 +16,3 @@ export const saveEmployeeTrackingInformation = async (values: EmployeeTrackingIn
       return error;
     });
 };
-
