@@ -88,29 +88,19 @@ const NavigationBar = () => {
       </div>
       <div>
         <Switch>
-          <ProtectedRoutes path="/Home" component={Dashboard} isAuthenticated={!!isAuthenticated} />
-          <ProtectedRoutes path="/RegisterUser" component={Register} isAuthenticated={!!isAuthenticated} />
-          <ProtectedRoutes path="/Reports" component={Report} isAuthenticated={!!isAuthenticated} />
-          <ProtectedRoutes
-            path="/EmployeeRegistration"
-            component={EmployeeRegistrationForm}
-            isAuthenticated={isAuthenticated}
-          />
+          <Route path="/Home" component={Dashboard} />
+          <Route path="/Reports" component={Report} />
+          <Route path="/EmployeeRegistration" component={EmployeeRegistrationForm} />
           {/* <Route exact path="/">
             <Login />
           </Route> */}
-          <ProtectedRoutes
+          <Route
             path="/EmployeeProfile/:pfNumber"
-            isAuthenticated={isAuthenticated}
             component={() => <Employeeprofile parentCallback={handleCallback} />}
           />
-          <ProtectedRoutes
-            path="/AddEmployeeTracking"
-            component={EmployeeTrackingForm}
-            isAuthenticated={isAuthenticated}
-          >
+          <Route path="/AddEmployeeTracking" component={EmployeeTrackingForm}>
             <EmployeeTrackingForm pfNumber={callBackValues?.pfNumber} edit={callBackValues?.edit} />
-          </ProtectedRoutes>
+          </Route>
         </Switch>
       </div>
       <Modal

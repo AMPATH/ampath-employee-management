@@ -3,6 +3,7 @@ import { Formik, Form, FormikHelpers } from 'formik';
 import { useHistory } from 'react-router-dom';
 import { TextInput, Button, Checkbox, PasswordInput, InlineNotification, Link } from 'carbon-components-react';
 import { loginUser } from './login.resource';
+import { Register } from '../Register/register';
 import { formValues, formInputProps } from './login.types';
 import { validationSchema } from './login.validation';
 import styles from './login.module.scss';
@@ -28,7 +29,7 @@ export const Login: React.FC = () => {
   };
 
   const history = useHistory();
-  const handleRegister = useCallback(() => history.push('/RegisterUser'), [history]);
+  const handleRegister = () => history.push('/RegisterUser');
 
   return (
     <>
@@ -93,9 +94,9 @@ export const Login: React.FC = () => {
                       Register
                     </Button>
                   </div>
-                  <Link className={styles.link} href="http://www.carbondesignsystem.com">
+                  {/* <Link className={styles.link} href="http://www.carbondesignsystem.com">
                     Forgot Password?
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
