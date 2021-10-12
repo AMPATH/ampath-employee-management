@@ -29,13 +29,8 @@ import {
   getReport,
   getSites,
   trackEmployees,
-<<<<<<< Updated upstream
 } from '../../commonResources/common.resource';
 import { exportPDF } from './exportPDF';
-=======
-} from './reports.resource';
-import NavigationBar from '../Navigation/NavigationBar';
->>>>>>> Stashed changes
 
 export const EmployeeStatusReport: React.FC = () => {
   const [firstRowIndex, setFirstRowIndex] = React.useState(0);
@@ -178,7 +173,6 @@ export const EmployeeStatusReport: React.FC = () => {
   const rows = getRowItems(report);
 
   return (
-<<<<<<< Updated upstream
     <>
       <Grid style={{ marginTop: '7rem' }}>
         <Row>
@@ -196,63 +190,42 @@ export const EmployeeStatusReport: React.FC = () => {
               <SelectItem text="Active" value="Active" />
               <SelectItem text="InActive" value="InActive" />
             </Select>
-=======
-    <NavigationBar /> && (
-      <>
-        <Grid style={{ marginTop: '7rem' }}>
-          <Row>
-            <Column sm={6} md={6} lg={3}>
-              <FormLabel>
-                <span>Filter By</span>
-              </FormLabel>
-              <Select
-                id="contractStatus"
-                labelText="Contract Status: "
-                defaultValue="placeholder-item"
-                onChange={handleChange}
-              >
-                <SelectItem disabled hidden value="placeholder-item" text=" " />
-                <SelectItem text="Active" value="Active" />
-                <SelectItem text="InActive" value="InActive" />
-              </Select>
->>>>>>> Stashed changes
 
-              <Select id="department" labelText="Department: " defaultValue="placeholder-item" onChange={handleChange}>
-                <SelectItem disabled hidden value="placeholder-item" text=" " />
-                {departments.map((item: any, index: any) => (
-                  <SelectItem text={item.name} key={index} value={item.name} />
-                ))}
-              </Select>
+            <Select id="department" labelText="Department: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
+              {departments.map((item: any, index: any) => (
+                <SelectItem text={item.name} key={index} value={item.name} />
+              ))}
+            </Select>
 
-              <Select id="project" labelText="Project: " defaultValue="placeholder-item" onChange={handleChange}>
-                <SelectItem disabled hidden value="placeholder-item" text=" " />
-                {projects.map((item: any, index: any) => (
-                  <SelectItem text={item.name} key={index} value={item.name} />
-                ))}
-              </Select>
+            <Select id="project" labelText="Project: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
+              {projects.map((item: any, index: any) => (
+                <SelectItem text={item.name} key={index} value={item.name} />
+              ))}
+            </Select>
 
-              <Select id="site" labelText="Site: " defaultValue="placeholder-item" onChange={handleChange}>
-                <SelectItem disabled hidden value="placeholder-item" text=" " />
-                {sites.map((item: any, index: any) => (
-                  <SelectItem text={item.name} key={index} value={item.name} />
-                ))}
-              </Select>
+            <Select id="site" labelText="Site: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
+              {sites.map((item: any, index: any) => (
+                <SelectItem text={item.name} key={index} value={item.name} />
+              ))}
+            </Select>
 
-              <Select id="budget" labelText="Budget: " defaultValue="placeholder-item" onChange={handleChange}>
-                <SelectItem disabled hidden value="placeholder-item" text=" " />
-                {budgets.map((item: any, index: any) => (
-                  <SelectItem text={item.name} key={index} value={item.name} />
-                ))}
-              </Select>
+            <Select id="budget" labelText="Budget: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
+              {budgets.map((item: any, index: any) => (
+                <SelectItem text={item.name} key={index} value={item.name} />
+              ))}
+            </Select>
 
-              <Select id="county" labelText="County: " defaultValue="placeholder-item" onChange={handleChange}>
-                <SelectItem disabled hidden value="placeholder-item" text=" " />
-                {counties.map((item: any, index: any) => (
-                  <SelectItem text={item.name} key={index} value={item.name} />
-                ))}
-              </Select>
+            <Select id="county" labelText="County: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
+              {counties.map((item: any, index: any) => (
+                <SelectItem text={item.name} key={index} value={item.name} />
+              ))}
+            </Select>
 
-<<<<<<< Updated upstream
             <Select id="programArea" labelText="Program Area: " defaultValue="placeholder-item" onChange={handleChange}>
               <SelectItem disabled hidden value="placeholder-item" text=" " />
               {programs.map((item: any, index: any) => (
@@ -300,42 +273,6 @@ export const EmployeeStatusReport: React.FC = () => {
                           </TableRow>
                         ))
                       ) : (
-=======
-              <Select
-                id="programArea"
-                labelText="Program Area: "
-                defaultValue="placeholder-item"
-                onChange={handleChange}
-              >
-                <SelectItem disabled hidden value="placeholder-item" text=" " />
-                {programs.map((item: any, index: any) => (
-                  <SelectItem text={item.name} key={index} value={item.name} />
-                ))}
-              </Select>
-              <br />
-              <Button style={{ width: '100%' }} kind="secondary" onClick={handleReport}>
-                Generate report
-              </Button>
-            </Column>
-            <Column sm={6} md={6} lg={9}>
-              <DataTable rows={rows} headers={tableHeaders} isSortable useZebraStyles>
-                {({
-                  rows,
-                  headers,
-                  getHeaderProps,
-                  getRowProps,
-                  getTableProps,
-                }: {
-                  rows: any;
-                  headers: any;
-                  getRowProps: any;
-                  getHeaderProps: any;
-                  getTableProps: any;
-                }) => (
-                  <TableContainer title="Employees Report" style={{ marginTop: '3rem' }}>
-                    <Table {...getTableProps()}>
-                      <TableHead>
->>>>>>> Stashed changes
                         <TableRow>
                           {headers.map((header: any) => (
                             <TableHeader key={header.key} {...getHeaderProps({ header })}>
@@ -343,7 +280,6 @@ export const EmployeeStatusReport: React.FC = () => {
                             </TableHeader>
                           ))}
                         </TableRow>
-<<<<<<< Updated upstream
                       )}
                     </TableBody>
                   </Table>
@@ -372,49 +308,5 @@ export const EmployeeStatusReport: React.FC = () => {
         </Row>
       </Grid>
     </>
-=======
-                      </TableHead>
-                      <TableBody>
-                        {rows.length > 0 ? (
-                          rows.map((row: any) => (
-                            <TableRow key={row.id}>
-                              {row.cells.map((cell: any) => (
-                                <TableCell key={cell.id}>{cell.value}</TableCell>
-                              ))}
-                            </TableRow>
-                          ))
-                        ) : (
-                          <TableRow>
-                            <TableCell style={{ columnSpan: 'all' }}>
-                              <h5>No records found</h5>
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                    <Pagination
-                      totalItems={report.length}
-                      backwardText="Previous page"
-                      forwardText="Next page"
-                      itemsPerPageText="Items per page:"
-                      pageNumberText="Page Number"
-                      pageSize={currentPageSize}
-                      pageSizes={[5, 10, 15, 20, 25]}
-                      onChange={({ page, pageSize }) => {
-                        if (pageSize !== currentPageSize) {
-                          setCurrentPageSize(pageSize);
-                        }
-                        setFirstRowIndex(pageSize * (page - 1));
-                      }}
-                    />
-                  </TableContainer>
-                )}
-              </DataTable>
-            </Column>
-          </Row>
-        </Grid>
-      </>
-    )
->>>>>>> Stashed changes
   );
 };
