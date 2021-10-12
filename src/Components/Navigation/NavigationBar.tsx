@@ -90,13 +90,8 @@ const NavigationBar = () => {
       <div>
         <Switch>
           <Route path="/Home" component={Dashboard} />
-<<<<<<< Updated upstream
           <Route path="/Reports" component={EmployeeStatusReport} />
           <Route path="/EmployeeRegistration" component={EmployeeRegistrationForm} />
-=======
-          {/* <Route path="/Reports" component={Report} /> */}
-          {/* <Route path="/EmployeeRegistration" component={EmployeeRegistrationForm} /> */}
->>>>>>> Stashed changes
           {/* <Route exact path="/">
             <Login />
           </Route> */}

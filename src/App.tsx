@@ -6,7 +6,6 @@ import NavigationBar from './Components/Navigation/NavigationBar';
 import { Login } from './Components/Login/login';
 import ProtectedRoutes from './Components/ProtectedRoutes/ProtectedRoutes';
 import { Register } from './Components/Register/register';
-<<<<<<< Updated upstream
 import { Logout16 } from '@carbon/icons-react';
 import {
   HeaderContainer,
@@ -32,14 +31,6 @@ interface CallBackValuesProps {
   pfNumber: number;
   edit?: EmployeeTrackingInputProps;
 }
-=======
-import { Report } from './Components/Reports/reports';
-import { EmployeeRegistrationForm } from './Components/Employee/Registration/employee-registration.component';
-import { EmployeeTrackingForm } from './Components/Employee/Tracking/employee-tracking.component';
-import { Dashboard } from './Components/Dashboard/dashboard';
-
-const token = localStorage.getItem('token');
->>>>>>> Stashed changes
 
 function App() {
   const [open, setOpen] = useState<boolean>(false);
@@ -68,7 +59,6 @@ function App() {
 
   return (
     <Router>
-<<<<<<< Updated upstream
       {!isAuthenticated ? (
         <>
           <Route path="/">
@@ -150,23 +140,6 @@ function App() {
           </Modal>
         </>
       )}
-=======
-      <Route exact path="/">
-        <Login />
-      </Route>
-      <Route exact path="/Home">
-        <Dashboard />
-      </Route>
-      <Route exact path="/RegisterUser">
-        <Register />
-      </Route>
-      <Route exact path="/Reports">
-        <Report />
-      </Route>
-      <Route path="/EmployeeRegistration">
-        <EmployeeRegistrationForm />
-      </Route>
->>>>>>> Stashed changes
     </Router>
   );
 }
