@@ -19,8 +19,6 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableToolbar,
-  TableToolbarContent,
 } from 'carbon-components-react';
 import {
   getBudgets,
@@ -31,11 +29,9 @@ import {
   getReport,
   getSites,
   trackEmployees,
-} from '../../commonResources/common.resource';
-import { exportPDF } from './exportPDF';
-import { Download16 as Download } from '@carbon/icons-react';
+} from './reports.resource';
 
-export const EmployeeStatusReport: React.FC = () => {
+export const Report: React.FC = () => {
   const [firstRowIndex, setFirstRowIndex] = React.useState(0);
   const [currentPageSize, setCurrentPageSize] = React.useState(10);
   const [counties, setCounties] = React.useState([]);
@@ -45,6 +41,7 @@ export const EmployeeStatusReport: React.FC = () => {
   const [sites, setSites] = React.useState([]);
   const [programs, setPrograms] = React.useState([]);
   const [report, setReport] = React.useState([]);
+  const [show, setShow] = React.useState(false);
   const [selectedValues, setSelectedValues] = React.useState({
     department: '',
     project: '',
@@ -64,6 +61,7 @@ export const EmployeeStatusReport: React.FC = () => {
 
   const tableHeaders: Array<DataTableHeader> = useMemo(
     () => [
+      // { key: 'id', header: 'ID' },
       { key: 'pfNumber', header: 'PF Number' },
       { key: 'name', header: 'Name' },
       { key: 'status', header: 'Status' },
@@ -76,84 +74,82 @@ export const EmployeeStatusReport: React.FC = () => {
     [],
   );
 
-  useMemo(async () => {
-    await Promise.all([
-      getCounties().then((res) => {
-        const results = res.data.map((county: any) => {
-          return {
-            ...county,
-            counties: county.name,
-          };
-        });
-        setCounties(results);
-      }),
-      getDepartments().then((res) => {
-        const results = res.data.map((department: any) => {
-          return {
-            ...department,
-            departments: department.name,
-          };
-        });
-        setDepartments(results);
-      }),
-      getProjects().then((res) => {
-        const results = res.data.map((project: any) => {
-          return {
-            ...project,
-            projects: project.name,
-          };
-        });
-        setProjects(results);
-      }),
-      getBudgets().then((res) => {
-        const results = res.data.map((budget: any) => {
-          return {
-            ...budget,
-            budgets: budget.name,
-          };
-        });
-        setBudgets(results);
-      }),
-      getSites().then((res) => {
-        const results = res.data.map((site: any) => {
-          return {
-            ...site,
-            sites: site.name,
-          };
-        });
-        setSites(results);
-      }),
-      trackEmployees().then((res) => {
-        const results = res.data.map((report: any) => {
-          return {
-            id: report.pfNumber,
-            pfNumber: report.pfNumber,
-            name: `${report.firstName} ${report.middleName} ${report.lastName}`,
-            status: report.employeeStatus,
-            department: report.department,
-            project: report.project,
-            site: report.site,
-            county: report.county,
-            program: report.programArea,
-          };
-        });
-        setReport(results);
-      }),
-      getPrograms().then((res) => {
-        const results = res.data.map((program: any) => {
-          return {
-            ...program,
-            programs: program.name,
-          };
-        });
-        setPrograms(results);
-      }),
-    ]);
+  useMemo(() => {
+    getCounties().then((res) => {
+      const results = res.map((county: any) => {
+        return {
+          ...county,
+          counties: county.name,
+        };
+      });
+      setCounties(results);
+    });
+    getDepartments().then((res) => {
+      const results = res.map((department: any) => {
+        return {
+          ...department,
+          departments: department.name,
+        };
+      });
+      setDepartments(results);
+    });
+    getProjects().then((res) => {
+      const results = res.map((project: any) => {
+        return {
+          ...project,
+          projects: project.name,
+        };
+      });
+      setProjects(results);
+    });
+    getBudgets().then((res) => {
+      const results = res.map((budget: any) => {
+        return {
+          ...budget,
+          budgets: budget.name,
+        };
+      });
+      setBudgets(results);
+    });
+    getSites().then((res) => {
+      const results = res.map((site: any) => {
+        return {
+          ...site,
+          sites: site.name,
+        };
+      });
+      setSites(results);
+    });
+    trackEmployees().then((res) => {
+      const results = res.map((report: any) => {
+        return {
+          id: report.pfNumber,
+          pfNumber: report.pfNumber,
+          name: `${report.firstName} ${report.middleName} ${report.lastName}`,
+          status: report.employeeStatus,
+          department: report.department,
+          project: report.project,
+          site: report.site,
+          county: report.county,
+          program: report.programArea,
+        };
+      });
+      setReport(results);
+    });
+    getPrograms().then((res) => {
+      const results = res.map((program: any) => {
+        return {
+          ...program,
+          programs: program.name,
+        };
+      });
+      setPrograms(results);
+    });
   }, []);
 
   const handleReport = () => {
     getReport(selectedValues).then((res) => {
-      const results = res.data.map((report: any) => {
+      const results = res.map((report: any) => {
         return {
           id: report.pfNumber,
           pfNumber: report.pfNumber,
@@ -174,57 +170,67 @@ export const EmployeeStatusReport: React.FC = () => {
   };
 
   const rows = getRowItems(report);
+  React.useEffect(() => {
+    if (rows.length) {
+      setShow(true);
+    }
+  }, [rows.length]);
   return (
     <>
-      <Grid style={{ marginTop: '7rem' }}>
+      <Grid style={{ marginTop: '4rem' }}>
         <Row>
-          <Column sm={12} md={12} lg={3}>
+          <Column sm={6} md={6} lg={3}>
             <FormLabel>
               <span>Filter By</span>
             </FormLabel>
-            <Select id="contractStatus" labelText="Contract Status: " defaultValue="" onChange={handleChange}>
-              <SelectItem value="" text="All" />
+            <Select
+              id="contractStatus"
+              labelText="Contract Status: "
+              defaultValue="placeholder-item"
+              onChange={handleChange}
+            >
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
               <SelectItem text="Active" value="Active" />
               <SelectItem text="InActive" value="InActive" />
             </Select>
 
-            <Select id="department" labelText="Department: " defaultValue="" onChange={handleChange}>
-              <SelectItem value="" text="All" />
+            <Select id="department" labelText="Department: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
               {departments.map((item: any, index: any) => (
                 <SelectItem text={item.name} key={index} value={item.name} />
               ))}
             </Select>
 
-            <Select id="project" labelText="Project: " defaultValue="" onChange={handleChange}>
-              <SelectItem value="" text="All" />
+            <Select id="project" labelText="Project: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
               {projects.map((item: any, index: any) => (
                 <SelectItem text={item.name} key={index} value={item.name} />
               ))}
             </Select>
 
-            <Select id="site" labelText="Site: " defaultValue="" onChange={handleChange}>
-              <SelectItem value="" text="All" />
+            <Select id="site" labelText="Site: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
               {sites.map((item: any, index: any) => (
                 <SelectItem text={item.name} key={index} value={item.name} />
               ))}
             </Select>
 
-            <Select id="budget" labelText="Budget: " defaultValue="" onChange={handleChange}>
-              <SelectItem value="" text="All" />
+            <Select id="budget" labelText="Budget: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
               {budgets.map((item: any, index: any) => (
                 <SelectItem text={item.name} key={index} value={item.name} />
               ))}
             </Select>
 
-            <Select id="county" labelText="County: " defaultValue="" onChange={handleChange}>
-              <SelectItem value="" text="All" />
+            <Select id="county" labelText="County: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
               {counties.map((item: any, index: any) => (
                 <SelectItem text={item.name} key={index} value={item.name} />
               ))}
             </Select>
 
-            <Select id="programArea" labelText="Program Area: " defaultValue="" onChange={handleChange}>
-              <SelectItem value="" text="All" />
+            <Select id="programArea" labelText="Program Area: " defaultValue="placeholder-item" onChange={handleChange}>
+              <SelectItem disabled hidden value="placeholder-item" text=" " />
               {programs.map((item: any, index: any) => (
                 <SelectItem text={item.name} key={index} value={item.name} />
               ))}
@@ -234,27 +240,22 @@ export const EmployeeStatusReport: React.FC = () => {
               Generate report
             </Button>
           </Column>
-          <Column sm={12} md={12} lg={9}>
+          <Column sm={6} md={6} lg={9}>
             <DataTable rows={rows} headers={tableHeaders} isSortable useZebraStyles>
               {({
                 rows,
                 headers,
                 getHeaderProps,
+                getRowProps,
                 getTableProps,
               }: {
                 rows: any;
                 headers: any;
+                getRowProps: any;
                 getHeaderProps: any;
                 getTableProps: any;
               }) => (
                 <TableContainer title="Employees Report" style={{ marginTop: '3rem' }}>
-                  <TableToolbar>
-                    <TableToolbarContent>
-                      <Button kind="secondary" onClick={() => exportPDF(report)} renderIcon={Download}>
-                        Download
-                      </Button>
-                    </TableToolbarContent>
-                  </TableToolbar>
                   <Table {...getTableProps()}>
                     <TableHead>
                       <TableRow>
@@ -276,11 +277,9 @@ export const EmployeeStatusReport: React.FC = () => {
                         ))
                       ) : (
                         <TableRow>
-                          {headers.map((header: any) => (
-                            <TableHeader key={header.key} {...getHeaderProps({ header })}>
-                              {header.header}
-                            </TableHeader>
-                          ))}
+                          <TableCell style={{ columnSpan: 'all' }}>
+                            <h5>No records found</h5>
+                          </TableCell>
                         </TableRow>
                       )}
                     </TableBody>
