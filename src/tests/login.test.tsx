@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { Login } from '../Components/Login/login';
 import renderer from 'react-test-renderer';
 import ReactDOM from 'react-dom';
@@ -12,8 +12,8 @@ it('renders without crashing', () => {
 
 it('submits correct values', async () => {
   const { container } = render(<Login setIsAuthenticated={undefined} />);
-  const username = container.querySelector('input[name="userName"]')!;
-  const password = container.querySelector('input[name="password"]')!;
+  const username = screen.getByLabelText('User Name:');
+  const password = screen.getByLabelText('Password: ')!;
   const submit = container.querySelector('button[type="submit"]');
 
   await waitFor(() => {
