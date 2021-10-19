@@ -1,12 +1,23 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
+import renderer from 'react-test-renderer';
+import ReactTestUtils from 'react-dom/test-utils';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter, Route } from 'react-router-dom';
 
-test('renders learn react link', () => {
+test('testing home link', () => {
+  let testHistory, testLocation;
   render(
-    <BrowserRouter>
+    <MemoryRouter initialEntries={['/']}>
       <App />
-    </BrowserRouter>,
+      <Route
+        path="/"
+        render={({ history, location }) => {
+          testHistory = history;
+          testLocation = location;
+          return null;
+        }}
+      />
+    </MemoryRouter>,
   );
 });
