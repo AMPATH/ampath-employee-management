@@ -13,7 +13,7 @@ it('renders without crashing', () => {
 it('submits correct values', async () => {
   const { container } = render(<Login setIsAuthenticated={undefined} />);
   const username = screen.getByLabelText('User Name:');
-  const password = screen.getByLabelText('Password: ')!;
+  const password = screen.getByLabelText('Password:')!;
   const submit = container.querySelector('button[type="submit"]');
 
   await waitFor(() => {
