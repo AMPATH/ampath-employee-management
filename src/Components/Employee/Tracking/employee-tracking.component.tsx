@@ -26,7 +26,7 @@ import {
   getSites,
 } from '../../../commonResources/common.resource';
 import { useHistory, useParams } from 'react-router-dom';
-import { getEmployeeProfile } from '../Registration/employee-registration.resource';
+import { getEmployeeProfile } from './employee-tracking-resource';
 
 export const EmployeeTrackingForm: React.FC = () => {
   const [projectId, setProject] = useState<Array<any>>([]);

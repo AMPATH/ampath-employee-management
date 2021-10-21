@@ -98,7 +98,7 @@ function App() {
               IsAuthenticated={isAuthenticated}
             />
             <ProtectedRoutes
-              path="/AddEmployeeTracking"
+              path="/AddEmployeeTracking/:pfNumber"
               component={EmployeeTrackingForm}
               IsAuthenticated={isAuthenticated}
             />
