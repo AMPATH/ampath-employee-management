@@ -25,15 +25,11 @@ import {
   getProjects,
   getSites,
 } from '../../../commonResources/common.resource';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
+import { getEmployeeProfile } from '../../../commonResources/common.resource';
+import { Modal } from 'carbon-components-react';
 
-export interface EmployeeTrackingFormProps {
-  pfNumber: number | undefined;
-  parentCallback?(evnt): void;
-  edit?: EmployeeTrackingInputProps;
-}
-
-export const EmployeeTrackingForm: React.FC<EmployeeTrackingFormProps> = (props) => {
+export const EmployeeTrackingForm: React.FC = () => {
   const [projectId, setProject] = useState<Array<any>>([]);
   const [departmentId, setDepartment] = useState<Array<any>>();
   const [siteId, setSite] = useState<Array<any>>();
@@ -42,17 +38,20 @@ export const EmployeeTrackingForm: React.FC<EmployeeTrackingFormProps> = (props)
   const [programId, setProgram] = useState<Array<any>>();
   const [formSuccess, setFormSuccess] = useState<boolean>(false);
   const [formError, setFormError] = useState<boolean>(false);
+  const [editValues, setEditValues] = useState<Object>();
   const [edited, setEdited] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const history = useHistory();
+  const { pfNumber } = useParams<{ pfNumber: string }>();
+
   const {
     register,
     setValue,
-    getValues,
     watch,
     handleSubmit,
     formState: { errors, touchedFields },
   } = useForm({ resolver: yupResolver(validationSchema), mode: 'all' });
-  const editValues = props.edit;
   const inputNames = [
     'projectId',
     'departmentId',
@@ -66,6 +65,31 @@ export const EmployeeTrackingForm: React.FC<EmployeeTrackingFormProps> = (props)
     'jobSpecification',
   ];
 
+  const prevUrl = `${history.location.state}`;
+  useEffect(() => {
+    prevUrl.match(/\/EmployeeRegistration(\/)?$/g) ? setShowModal(true) : setShowModal(false);
+  }, [prevUrl]);
+
+  useEffect(() => {
+    getEmployeeProfile(Number(pfNumber))
+      .then((response) => {
+        response
+          .filter(
+            (resp) =>
+              resp.projectId != null &&
+              resp.departmentId != null &&
+              resp.siteId != null &&
+              resp.countyId != null &&
+              resp.budgetId != null &&
+              resp.programId != null,
+          )
+          .map((resp) => setEditValues(resp));
+      })
+      .catch((errors) => {
+        throw errors;
+      });
+  }, [pfNumber]);
+
   useMemo(() => {
     editValues && setEdited(true);
     inputNames.map((name) => {
@@ -74,7 +98,7 @@ export const EmployeeTrackingForm: React.FC<EmployeeTrackingFormProps> = (props)
         .map((values) => {
           const initialValues =
             values[0] === 'endOfContract' || values[0] === 'dateOfJoining' || values[0] === 'dateOfLeaving'
-              ? new Date(values[1])
+              ? new Date(`${values[1]}`)
               : values[1];
           setValue(values[0], initialValues);
         });
@@ -98,7 +122,7 @@ export const EmployeeTrackingForm: React.FC<EmployeeTrackingFormProps> = (props)
   }, [{ ...touchedFields }, editValues]);
 
   const handleFormSubmit = (values: EmployeeTrackingInputProps) => {
-    values.pfNumber = props.pfNumber;
+    values.pfNumber = Number(pfNumber);
     values.project = values.projectId;
     values.department = values.departmentId;
     values.site = values.siteId;
@@ -108,19 +132,24 @@ export const EmployeeTrackingForm: React.FC<EmployeeTrackingFormProps> = (props)
     values.endOfContract = dayjs(values.endOfContract).format('YYYY-MM-DD');
     values.dateOfJoining = dayjs(values.dateOfJoining).format('YYYY-MM-DD');
     values.dateOfLeaving = dayjs(values.dateOfLeaving).format('YYYY-MM-DD');
-    console.log('Values', values);
     saveEmployeeTrackingInformation(values)
       .then((response) => {
         if (response.status === 200) {
           setFormSuccess(true);
-          props.parentCallback?.({ formSuccess: true });
-          setTimeout(() => history.push(`/EmployeeProfile/${props.pfNumber}`), 2000);
+          setTimeout(() => setOpen(true), 2000);
         }
       })
       .catch((error) => {
         setFormError(true);
-        props.parentCallback?.({ formSuccess: false });
       });
+  };
+
+  const goToProfile = (e) => {
+    history.push(`/EmployeeProfile/${pfNumber}`);
+  };
+
+  const goToNewRegistration = (e) => {
+    history.goBack();
   };
 
   useMemo(() => {
@@ -168,7 +197,7 @@ export const EmployeeTrackingForm: React.FC<EmployeeTrackingFormProps> = (props)
         <ToastNotification
           title="Data saved successfully"
           className={styles.toast}
-          timeout={3000}
+          timeout={2000}
           subtitle="Employee tracking data saved successfully"
           kind="success"
         />
@@ -177,7 +206,7 @@ export const EmployeeTrackingForm: React.FC<EmployeeTrackingFormProps> = (props)
         <ToastNotification
           title="Error saving data"
           className={styles.toast}
-          timeout={3000}
+          timeout={2000}
           subtitle="Employee tracking data not saved"
           kind="error"
         />
@@ -336,6 +365,26 @@ export const EmployeeTrackingForm: React.FC<EmployeeTrackingFormProps> = (props)
           <Button type="submit" className={styles.submitBtn} disabled={edited} kind="primary">
             Save
           </Button>
+          <Modal
+            open={showModal && open}
+            onRequestClose={(e) => {
+              setOpen(false);
+              goToProfile;
+            }}
+            passiveModal
+            preventCloseOnClickOutside
+            modalHeading="Registration successfully completed"
+          >
+            <p>Would you like to start a new registration or continue to the employee profile?</p>
+            <div className={styles.modalBtn}>
+              <Button onClick={goToNewRegistration} className={styles.registerBtn}>
+                Start a new registration?
+              </Button>
+              <Button kind="tertiary" onClick={goToProfile} className={styles.continueBtn}>
+                Continue to profile?
+              </Button>
+            </div>
+          </Modal>
         </Column>
       </Form>
     </>

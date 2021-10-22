@@ -34,9 +34,9 @@ import {
   getSites,
   trackEmployees,
 } from '../../commonResources/common.resource';
-import { exportPDF } from './exportPDF';
 import { Download16 as Download } from '@carbon/icons-react';
 import { CSVLink } from 'react-csv';
+import { exportPDF } from './exportPDF';
 
 export const EmployeeStatusReport: React.FC = () => {
   const [firstRowIndex, setFirstRowIndex] = React.useState(0);
